@@ -44,10 +44,12 @@ Options:
                          [default: None]
     --output=FILE        output video filename
                          [default: video.avi]
+    --fps=FPS            frames per secong
+                         [default: 30]
 """
 
 name    = "images_to_video"
-version = "2015-08-19T1434Z"
+version = "2015-08-20T0832Z"
 
 import docopt
 import os
@@ -65,6 +67,7 @@ def main(options):
     extension          = options["--extension"]
     soundtrackFilename = options["--soundtrack"]
     outputFilename     = options["--output"]
+    FPS                = float(options["--fps"])
 
     listOfImageFiles = shijian.find_file_sequences(
         extension = extension
@@ -72,14 +75,14 @@ def main(options):
     print("list of image files: {listOfImageFiles}".format(
         listOfImageFiles = listOfImageFiles
     ))
-    video = ImageSequenceClip(listOfImageFiles, fps = 30)
+    video = ImageSequenceClip(listOfImageFiles, fps = FPS)
 
     raw_input("Press Enter to write video.")
 
     if soundtrackFilename == "None":
         video.write_videofile(
             outputFilename,
-            fps         = 30,
+            fps         = FPS,
             codec       = codecVideo,
             audio       = False
         )
@@ -88,7 +91,7 @@ def main(options):
         video = video.set_audio(soundtrack)
         video.write_videofile(
             outputFilename,
-            fps         = 30,
+            fps         = FPS,
             codec       = codecVideo,
             audio_codec = codecAudio,
             audio       = True
