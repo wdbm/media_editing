@@ -56,7 +56,7 @@ import propyte
 import shijian
 
 name    = "images_to_video"
-version = "2018-01-17T1456Z"
+version = "2018-01-17T1525Z"
 
 def main(options):
 

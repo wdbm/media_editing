@@ -104,6 +104,7 @@ def filepaths_recursive(
     Return a list of filepaths found recursively at the specified directory.
     """
 
+    directory = os.path.expanduser(directory)
     filepaths = []
     for root, directories, filenames in os.walk(directory):
         for filename in filenames: 
