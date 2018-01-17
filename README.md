@@ -1,5 +1,11 @@
 # media_editing
 
+# setup
+
+```Bash
+pip install media_editing
+```
+
 # Markdown_to_HTML.py
 
 This script recursively converts Markdown files at a specified directory to HTML files, with options to include table of contents and to specify a CSS style.
