@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 ################################################################################
@@ -38,10 +39,13 @@ options:
     -h, --help           display help message
     --version            display version and exit
 
-    --extension=TEXT     input image files extension  [default: png]
-    --soundtrack=FILE    soundtrack file              [default: None]
-    --output=FILE        output video filename        [default: video.avi]
-    --fps=FPS            frames per second            [default: 30]
+    --directory=PATH     directory at which to recursively compile files
+                         [default: .]
+    
+    --table_of_contents  include table of contents
+    
+    --CSS=PATH           path to CSS
+                         [default: https://rawgit.com/wdbm/style/master/SS/newswire.css]
 """
 
 import docopt
@@ -49,13 +53,15 @@ import os
 import subprocess
 
 name    = "Markdown_to_HTML"
-version = "2018-01-17T1416Z"
+version = "2018-01-17T1506Z"
 
 def main(options):
 
-    filepaths = filepaths_recursive()
+    directory         = options["--directory"]
+    table_of_contents = options["--table_of_contents"]
+    CSS               = options["--CSS"]
+    filepaths = filepaths_recursive(directory = directory)
     filepaths_compile = [filepath for filepath in filepaths if ".md" in filepath]
-
     for filepath in filepaths_compile:
         filepath_output                                     =\
             os.path.dirname(filepath)                       +\
@@ -66,16 +72,28 @@ def main(options):
             filepath        = filepath,
             filepath_output = filepath_output
         ))
-        process = subprocess.Popen([
-            "pandoc",
-            #"--table-of-contents",
-            "--number-sections",
-            "-c",
-            "https://rawgit.com/wdbm/style/master/SS/newswire_TTHbbLeptonic.css",
-            filepath,
-            "-o",
-            filepath_output
-        ], stdout = subprocess.PIPE)
+        if table_of_contents:
+            command = [
+                "pandoc",
+                "--table-of-contents",
+                "--number-sections",
+                "-c",
+                CSS,
+                filepath,
+                "-o",
+                filepath_output
+            ]
+        else:
+            command = [
+                "pandoc",
+                "--number-sections",
+                "-c",
+                CSS,
+                filepath,
+                "-o",
+                filepath_output
+            ]
+        process = subprocess.Popen(command, stdout = subprocess.PIPE)
         output, error = process.communicate()
 
 def filepaths_recursive(

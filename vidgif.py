@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 ################################################################################
@@ -41,9 +42,9 @@ options:
     -s, --silent             silent
     -u, --username=USERNAME  username
 
-    --filenamevideo=TEXT     filename of input video        [default: video.mp4]
-    --filenameGIF=TEXT       filename of output GIF         [default: video.gif]
-    --directory=TEXT         directoryname for tmp          [default: tmp]
+    --filename_video=TEXT    filename of input video  [default: video.mp4]
+    --filename_GIF=TEXT      filename of output GIF   [default: video.gif]
+    --directory=TEXT         directoryname for tmp    [default: tmp]
 """
 
 from __future__ import division
@@ -57,7 +58,7 @@ import pymediainfo
 import shijian
 
 name     = "vidgif"
-version  = "2017-03-15T2350Z"
+version  = "2018-01-17T1511Z"
 logo     = None
 instance = str(uuid.uuid4())
 
@@ -73,8 +74,8 @@ def main(options):
     global log
     from propyte import log
 
-    filename_video = options["--filenamevideo"]
-    filename_GIF   = options["--filenameGIF"]
+    filename_video = options["--filename_video"]
+    filename_GIF   = options["--filename_GIF"]
     directory_tmp  = options["--directory"]
 
     media_information = pymediainfo.MediaInfo.parse(filename_video)
@@ -103,7 +104,7 @@ def main(options):
     )
 
     log.info(command)
-    #shijian.engage_command(command = command)
+    shijian.engage_command(command = command)
 
     program.terminate()
 

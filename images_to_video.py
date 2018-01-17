@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 ################################################################################
@@ -51,10 +52,11 @@ import time
 import re
 
 from   moviepy.editor import *
+import propyte
 import shijian
 
 name    = "images_to_video"
-version = "2018-01-17T1409Z"
+version = "2018-01-17T1456Z"
 
 def main(options):
 
@@ -74,7 +76,7 @@ def main(options):
     ))
     video = ImageSequenceClip(list_of_image_files, fps = FPS)
 
-    raw_input("Press Enter to write video.")
+    propyte.pause(prompt = "Press Enter to write video.")
 
     if filename_soundtrack == "None":
         video.write_videofile(
