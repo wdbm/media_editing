@@ -3,16 +3,15 @@
 """
 ################################################################################
 #                                                                              #
-# images_to_video                                                              #
+# Markdown_to_HTML                                                             #
 #                                                                              #
 ################################################################################
 #                                                                              #
 # LICENCE INFORMATION                                                          #
 #                                                                              #
-# This program is a way of processing views of the ATLAS Control Room and OP   #
-# Vistars pages.                                                               #
+# This program converts Markdown files to HTML recursively.                    #
 #                                                                              #
-# copyright (C) 2015 William Breaden Madden                                    #
+# copyright (C) 2018 William Breaden Madden                                    #
 #                                                                              #
 # This software is released under the terms of the GNU General Public License  #
 # version 3 (GPLv3).                                                           #
@@ -47,52 +46,51 @@ options:
 
 import docopt
 import os
-import time
-import re
+import subprocess
 
-from   moviepy.editor import *
-import shijian
-
-name    = "images_to_video"
-version = "2018-01-17T1409Z"
+name    = "Markdown_to_HTML"
+version = "2018-01-17T1416Z"
 
 def main(options):
 
-    codec_video = "png" # "mpeg4"
-    codec_audio = "libvorbis"
+    filepaths = filepaths_recursive()
+    filepaths_compile = [filepath for filepath in filepaths if ".md" in filepath]
 
-    extension           =       options["--extension"]
-    filename_soundtrack =       options["--soundtrack"]
-    filename_output     =       options["--output"]
-    FPS                 = float(options["--fps"])
+    for filepath in filepaths_compile:
+        filepath_output                                     =\
+            os.path.dirname(filepath)                       +\
+            "/"                                             +\
+            os.path.splitext(os.path.basename(filepath))[0] +\
+            ".html"
+        print("compile {filepath} to {filepath_output}".format(
+            filepath        = filepath,
+            filepath_output = filepath_output
+        ))
+        process = subprocess.Popen([
+            "pandoc",
+            #"--table-of-contents",
+            "--number-sections",
+            "-c",
+            "https://rawgit.com/wdbm/style/master/SS/newswire_TTHbbLeptonic.css",
+            filepath,
+            "-o",
+            filepath_output
+        ], stdout = subprocess.PIPE)
+        output, error = process.communicate()
 
-    list_of_image_files = shijian.find_file_sequences(
-        extension = extension
-    )
-    print("list of image files: {list_of_image_files}".format(
-        list_of_image_files = list_of_image_files
-    ))
-    video = ImageSequenceClip(list_of_image_files, fps = FPS)
+def filepaths_recursive(
+    directory = "."
+    ):
 
-    raw_input("Press Enter to write video.")
+    """
+    Return a list of filepaths found recursively at the specified directory.
+    """
 
-    if filename_soundtrack == "None":
-        video.write_videofile(
-            filename_output,
-            fps         = FPS,
-            codec       = codec_video,
-            audio       = False
-        )
-    else:
-        soundtrack = AudioFileClip(filename_soundtrack)
-        video = video.set_audio(soundtrack)
-        video.write_videofile(
-            filename_output,
-            fps         = FPS,
-            codec       = codec_video,
-            audio_codec = codec_audio,
-            audio       = True
-        )
+    filepaths = []
+    for root, directories, filenames in os.walk(directory):
+        for filename in filenames: 
+            filepaths.append(os.path.join(root, filename))
+    return filepaths
 
 if __name__ == "__main__":
     options = docopt.docopt(__doc__)
