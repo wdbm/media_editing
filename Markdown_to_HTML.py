@@ -36,16 +36,19 @@ usage:
     program [options]
 
 options:
-    -h, --help           display help message
-    --version            display version and exit
+    -h, --help               display help message
+    --version                display version and exit
 
-    --directory=PATH     directory at which to recursively compile files
-                         [default: .]
+    --directory=PATH         directory at which to recursively compile files
+                             [default: .]
+
+    --number_sections        number sections
+    --table_of_contents      include table of contents
     
-    --table_of_contents  include table of contents
-    
-    --CSS=PATH           path to CSS
-                         [default: https://rawgit.com/wdbm/style/master/SS/newswire.css]
+    --CSS=PATH               path to CSS
+                             [default: https://rawgit.com/wdbm/style/master/SS/newswire.css]
+
+    --display_commands_only  display commands only, do not execute
 """
 
 import docopt
@@ -53,13 +56,15 @@ import os
 import subprocess
 
 name    = "Markdown_to_HTML"
-version = "2018-01-17T1506Z"
+version = "2018-02-14T1915Z"
 
 def main(options):
 
-    directory         = options["--directory"]
-    table_of_contents = options["--table_of_contents"]
-    CSS               = options["--CSS"]
+    directory             = options["--directory"]
+    number_sections       = options["--number_sections"]
+    table_of_contents     = options["--table_of_contents"]
+    CSS                   = options["--CSS"]
+    display_commands_only = options["--display_commands_only"]
     filepaths = filepaths_recursive(directory = directory)
     filepaths_compile = [filepath for filepath in filepaths if ".md" in filepath]
     for filepath in filepaths_compile:
@@ -68,33 +73,27 @@ def main(options):
             "/"                                             +\
             os.path.splitext(os.path.basename(filepath))[0] +\
             ".html"
-        print("compile {filepath} to {filepath_output}".format(
-            filepath        = filepath,
-            filepath_output = filepath_output
-        ))
+        command = ["pandoc"]
         if table_of_contents:
-            command = [
-                "pandoc",
-                "--table-of-contents",
-                "--number-sections",
-                "-c",
-                CSS,
-                filepath,
-                "-o",
-                filepath_output
-            ]
+            command.append("--table-of-contents")
+        if number_sections:
+            command.append("--number_sections")
+        command.extend([
+            "-c",
+            CSS,
+            filepath,
+            "-o",
+            filepath_output
+        ])
+        if display_commands_only:
+            print(" ".join(command))
         else:
-            command = [
-                "pandoc",
-                "--number-sections",
-                "-c",
-                CSS,
-                filepath,
-                "-o",
-                filepath_output
-            ]
-        process = subprocess.Popen(command, stdout = subprocess.PIPE)
-        output, error = process.communicate()
+            print("compile {filepath} to {filepath_output}".format(
+                filepath        = filepath,
+                filepath_output = filepath_output
+            ))
+            process = subprocess.Popen(command, stdout = subprocess.PIPE)
+            output, error = process.communicate()
 
 def filepaths_recursive(
     directory = "."

@@ -45,6 +45,8 @@ options:
     --filename_video=TEXT    filename of input video  [default: video.mp4]
     --filename_GIF=TEXT      filename of output GIF   [default: video.gif]
     --directory=TEXT         directoryname for tmp    [default: tmp]
+
+    --display_commands_only  display commands only, do not execute
 """
 
 from __future__ import division
@@ -58,7 +60,7 @@ import pymediainfo
 import shijian
 
 name     = "vidgif"
-version  = "2018-01-17T1511Z"
+version  = "2018-02-14T1917Z"
 logo     = None
 instance = str(uuid.uuid4())
 
@@ -74,9 +76,10 @@ def main(options):
     global log
     from propyte import log
 
-    filename_video = options["--filename_video"]
-    filename_GIF   = options["--filename_GIF"]
-    directory_tmp  = options["--directory"]
+    filename_video        = options["--filename_video"]
+    filename_GIF          = options["--filename_GIF"]
+    directory_tmp         = options["--directory"]
+    display_commands_only = options["--display_commands_only"]
 
     media_information = pymediainfo.MediaInfo.parse(filename_video)
 
@@ -104,7 +107,8 @@ def main(options):
     )
 
     log.info(command)
-    shijian.engage_command(command = command)
+    if not display_commands_only:
+        shijian.engage_command(command = command)
 
     program.terminate()
 
