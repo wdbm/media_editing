@@ -42,9 +42,10 @@ options:
     -s, --silent             silent
     -u, --username=USERNAME  username
 
-    --filename_video=TEXT    filename of input video  [default: video.mp4]
-    --filename_GIF=TEXT      filename of output GIF   [default: video.gif]
-    --directory=TEXT         directoryname for tmp    [default: tmp]
+    --filename_video=TEXT    filename of input video                 [default: video.mp4]
+    --filename_GIF=TEXT      filename of output GIF                  [default: video.gif]
+    --directory=TEXT         directoryname for tmp                   [default: tmp]
+    --delay=float            frame delay (1/100 s) (delay = 100/FPS) [default: 5]
 
     --display_commands_only  display commands only, do not execute
 """
@@ -52,39 +53,36 @@ options:
 from __future__ import division
 
 import docopt
+import logging
 import math
+import os
+import sys
 import uuid
 
-import propyte
 import pymediainfo
 import shijian
+import technicolor
 
 name     = "vidgif"
-version  = "2018-02-14T1917Z"
-logo     = None
-instance = str(uuid.uuid4())
+version  = "2018-02-26T1144Z"
+
+log = logging.getLogger(name)
+log.addHandler(technicolor.ColorisingStreamHandler())
+log.setLevel(logging.DEBUG)
 
 def main(options):
 
-    global program
-    program = propyte.Program(
-        options = options,
-        name    = name,
-        version = version,
-        logo    = logo
-    )
-    global log
-    from propyte import log
+    filename_video        =       options["--filename_video"]
+    filename_GIF          =       options["--filename_GIF"]
+    directory_tmp         =       options["--directory"]
+    delay                 = float(options["--delay"])
+    display_commands_only =       options["--display_commands_only"]
 
-    filename_video        = options["--filename_video"]
-    filename_GIF          = options["--filename_GIF"]
-    directory_tmp         = options["--directory"]
-    display_commands_only = options["--display_commands_only"]
-
+    if not os.path.isfile(filename_video):
+        print("{filename_video} not found".format(filename_video = filename_video))
+        sys.exit()
     media_information = pymediainfo.MediaInfo.parse(filename_video)
-
     duration = int(math.ceil(media_information.tracks[0].duration / 1000))
-
     command =\
     """
     export MAGICK_MEMORY_LIMIT=1024
@@ -98,19 +96,17 @@ def main(options):
 
     #mogrify -resize 50% {directory_tmp}/*.jpg
 
-    convert -delay 5 -loop 0 -layers optimize {directory_tmp}/*.jpg {filename_GIF}
+    convert -delay {delay} -loop 0 -layers optimize {directory_tmp}/*.jpg {filename_GIF}
     """.format(
         filename_video = filename_video,
         filename_GIF   = filename_GIF,
         directory_tmp  = directory_tmp,
-        duration       = duration
+        duration       = duration,
+        delay          = delay
     )
-
     log.info(command)
     if not display_commands_only:
         shijian.engage_command(command = command)
-
-    program.terminate()
 
 if __name__ == "__main__":
     options = docopt.docopt(__doc__)
