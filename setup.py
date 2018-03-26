@@ -9,7 +9,7 @@ def main():
 
     setuptools.setup(
         name             = "media_editing",
-        version          = "2018.02.26.1144",
+        version          = "2018.03.26.0007",
         description      = "media editing",
         long_description = long_description(),
         url              = "https://github.com/wdbm/media_editing",
@@ -24,12 +24,14 @@ def main():
                            "moviepy",
                            "propyte",
                            "pymediainfo",
+                           "pyqrcode",
                            "shijian",
                            "technicolor"
                            ],
         scripts          = [
                            "images_to_video.py",
                            "Markdown_to_HTML.py",
+                           "text_to_QR_code.py",
                            "vidgif.py"
                            ],
         entry_points     = """
