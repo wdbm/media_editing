@@ -21,3 +21,17 @@ This script converts specified text to a QR code of specified scale and filepath
 # vidgif.py
 
 This script converts a video to an animated GIF, with the option to output commands only, not execute.
+
+# OCR of region of display
+
+```Bash
+sudo apt install tesseract-ocr imagemagick scrot
+```
+
+```Bash
+tmp="$(mktemp)"
+scrot -s "${tmp}".png -q 100 
+mogrify -modulate 100,0 -resize 400% "${tmp}".png 
+tesseract "${tmp}".png "${tmp}" &> /dev/null
+cat "${tmp}".txt
+```
