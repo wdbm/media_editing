@@ -25,7 +25,7 @@ This script converts a video to an animated GIF, with the option to output comma
 # OCR of region of display
 
 ```Bash
-sudo apt install tesseract-ocr imagemagick scrot
+sudo apt install imagemagick scrot tesseract-ocr
 ```
 
 ```Bash
