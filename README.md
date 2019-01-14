@@ -10,6 +10,15 @@ pip install media_editing
 
 This script recursively converts Markdown files at a specified directory to HTML files, with options to include numbered sections, table of contents, CSS and to output commands only, not execute.
 
+Example usage with CSS specified is as follows:
+
+```Bash
+cd my_writing_files_in_Markdown
+
+CSS="https://raw.githack.com/wdbm/style/master/SS/bluescale.css"
+Markdown_to_HTML.py --CSS="${CSS}
+```
+
 # images_to_video.py
 
 This script converts a list of image files to a video with the options of specifying the image extension, a soundtrack file, an output filename and a framerate.
