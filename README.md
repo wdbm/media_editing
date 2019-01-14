@@ -16,7 +16,7 @@ Example usage with CSS specified is as follows:
 cd my_writing_files_in_Markdown
 
 CSS="https://raw.githack.com/wdbm/style/master/SS/bluescale.css"
-Markdown_to_HTML.py --CSS="${CSS}
+Markdown_to_HTML.py --CSS="${CSS}"
 ```
 
 # images_to_video.py
