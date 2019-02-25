@@ -44,3 +44,24 @@ mogrify -modulate 100,0 -resize 400% "${tmp}".png
 tesseract "${tmp}".png "${tmp}" &> /dev/null
 cat "${tmp}".txt
 ```
+
+# High Dynamic Resolution (HDR)
+
+## Luminance HDR
+
+### setup
+
+```Bash
+sudo apt update
+sudo apt install luminance-hdr
+```
+
+### settings used to combine a darker and a lighter image 2019-02-24
+
+- tonemap
+    - operator: Reinhard '05
+    - brightness: -10
+    - chromatic adaptation: 0
+    - light adaptation: 1
+- process
+    - pre-gamma: 0.86
