@@ -65,3 +65,22 @@ sudo apt install luminance-hdr
     - light adaptation: 1
 - process
     - pre-gamma: 0.86
+
+# recording internal audio: audio-recorder
+
+## setup
+
+```Bash
+sudo dpkg -i audio-recorder_1.7-5~xenial_amd64.deb
+```
+
+## usage
+
+```Bash
+audio-recorder
+```
+
+- Under "Audio settings.", select the source as something like "Clear Chat Comfort USB Headset (Audio output)".
+- Select "Start recording".
+
+![](https://raw.githubusercontent.com/wdbm/media_editing/master/media/Audio_Recorder.png)
