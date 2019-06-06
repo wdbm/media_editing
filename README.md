@@ -84,3 +84,24 @@ audio-recorder
 - Select "Start recording".
 
 ![](https://raw.githubusercontent.com/wdbm/media_editing/master/media/Audio_Recorder.png)
+
+# trim video using start and stop times without reencoding
+
+Note the ordering of the command line arguments and options.
+
+```Bash
+filepath_1="Star.Wars.1977.Despecialized.720p.x264.AC3.5.1.mkv"
+filepath_2="out.mkv"
+start="01:40:33"
+stop="01:54:48"
+
+time ffmpeg -y -i "${filepath_1}" -ss "${start}" -to "${stop}" -c copy "${filepath_2}"
+```
+
+# remove audio from video
+
+The `-an` flag is used.
+
+```Bash
+ffmpeg -i in.mkv -c copy -an out.mkv
+```
