@@ -105,3 +105,64 @@ The `-an` flag is used.
 ```Bash
 ffmpeg -i in.mkv -c copy -an out.mkv
 ```
+
+# strip/remove an image of all profiles and comments using ImageMagick
+
+```Bash
+convert -strip image_1.png image_2.png
+```
+
+# create an image of specified width, height and color using ImageMagick
+
+Width is specified before height.
+
+```Bash
+convert -size 100x100 xc:#000000 out.png
+```
+
+```Bash
+convert -size 100x100 xc:rgba\(255,0,0,0.4\) out.png
+```
+
+```Bash
+width_pixels="3495"
+height_pixels="2160"
+color="#eeeeee"
+filepath="out.png"
+convert -size "${width_pixels}"x"${height_pixels}" xc:"${color}" "${filepath}"
+```
+
+```Bash
+width_pixels="3107"
+height_pixels="1920"
+color="#eeeeee"
+filepath="background.png"
+convert -size "${width_pixels}"x"${height_pixels}" xc:"${color}" "${filepath}"
+```
+
+# overlay one foreground image on the center of a background image using ImageMagick
+
+```Bash
+convert background.png -coalesce -gravity center -draw 'image over 0,0,0,0 "foreground.png"' out.png
+```
+
+```Bash
+filepath_foreground="foreground.png"
+filepath_background="background.png"
+filepath_output="out.png"
+
+# not working, under development:
+# time convert "${filepath_background}" -coalesce -gravity center -draw 'image over 0,0,0,0 \"${filepath_foreground}\"' "${filepath_output}"
+```
+
+The option `-layers flatten` may be worth considering.
+
+# set up palettes for Inkscape
+
+```Bash
+/usr/share/inkscape/palettes
+```
+
+# convert bitmap to vector using Inkscape
+
+- <https://www.youtube.com/watch?v=SjCFRI3knhE>
