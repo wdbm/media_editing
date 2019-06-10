@@ -45,6 +45,8 @@ tesseract "${tmp}".png "${tmp}" &> /dev/null
 cat "${tmp}".txt
 ```
 
+---
+
 # High Dynamic Resolution (HDR)
 
 ## Luminance HDR
@@ -66,6 +68,8 @@ sudo apt install luminance-hdr
 - process
     - pre-gamma: 0.86
 
+---
+
 # recording internal audio: audio-recorder
 
 ## setup
@@ -85,7 +89,11 @@ audio-recorder
 
 ![](https://raw.githubusercontent.com/wdbm/media_editing/master/media/Audio_Recorder.png)
 
-# trim video using start and stop times without reencoding
+---
+
+# FFmpeg
+
+## trim video using start and stop times without reencoding
 
 Note the ordering of the command line arguments and options.
 
@@ -98,7 +106,7 @@ stop="01:54:48"
 time ffmpeg -y -i "${filepath_1}" -ss "${start}" -to "${stop}" -c copy "${filepath_2}"
 ```
 
-# remove audio from video
+## remove audio from video
 
 The `-an` flag is used.
 
@@ -106,13 +114,17 @@ The `-an` flag is used.
 ffmpeg -i in.mkv -c copy -an out.mkv
 ```
 
-# strip/remove an image of all profiles and comments using ImageMagick
+---
+
+# ImageMagick
+
+## strip/remove an image of all profiles and comments using ImageMagick
 
 ```Bash
 convert -strip image_1.png image_2.png
 ```
 
-# create an image of specified width, height and color using ImageMagick
+## create an image of specified width, height and color using ImageMagick
 
 Width is specified before height.
 
@@ -140,7 +152,7 @@ filepath="background.png"
 convert -size "${width_pixels}"x"${height_pixels}" xc:"${color}" "${filepath}"
 ```
 
-# overlay one foreground image on the center of a background image using ImageMagick
+## overlay one foreground image on the center of a background image using ImageMagick
 
 ```Bash
 convert background.png -coalesce -gravity center -draw 'image over 0,0,0,0 "foreground.png"' out.png
@@ -157,12 +169,53 @@ filepath_output="out.png"
 
 The option `-layers flatten` may be worth considering.
 
-# set up palettes for Inkscape
+---
+
+# Inkscape
+
+## set up palettes for Inkscape
 
 ```Bash
 /usr/share/inkscape/palettes
 ```
 
-# convert bitmap to vector using Inkscape
+## convert bitmap to vector using Inkscape
 
 - <https://www.youtube.com/watch?v=SjCFRI3knhE>
+
+---
+
+# Calibre
+
+## setup 2019-01-24T0350Z
+
+```Bash
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+```
+
+# view ebook
+
+```Bash
+ebook-viewer book.epub
+```
+
+# convert EPUB to MOBI using ebook-convert
+
+```Bash
+ebook-convert book.epub book.mobi
+```
+
+# convert LaTeX to HTML to EPUB
+
+```Bash
+mk4ht htlatex book.tex 'xhtml,charset=utf-8,pmathml'
+ebook-convert book.html book.epub
+```
+
+# convert Markdown to EPUB
+
+```Bash
+ebook-convert book.md book.epub
+```
+
+---
