@@ -118,10 +118,20 @@ ffmpeg -i in.mkv -c copy -an out.mkv
 
 # ImageMagick
 
+## change quality of directory of JPEG images
+
+```Bash
+mogrify -quality 95 *.jpg
+```
+
 ## strip/remove an image of all profiles and comments using ImageMagick
 
 ```Bash
 convert -strip image_1.png image_2.png
+```
+
+```Bash
+mogrify -strip *.jpg
 ```
 
 ## create an image of specified width, height and color using ImageMagick
