@@ -229,3 +229,16 @@ ebook-convert book.md book.epub
 ```
 
 ---
+
+# music
+
+## some music software and tools
+
+- Audacity
+- Hydrogen
+- [MidiEditor](https://github.com/markusschwenk/midieditor)
+- [MusE](https://muse-sequencer.github.io)
+- MuseScore
+- [Online Sequencer](https://onlinesequencer.net)
+
+---
