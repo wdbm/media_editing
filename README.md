@@ -179,6 +179,13 @@ filepath_output="out.png"
 
 The option `-layers flatten` may be worth considering.
 
+## reduce quality of images at working directory in batch, making new images at new directory
+
+```Bash
+mkdir new
+mogrify -path new -quality 80 -format jpg *.jpg
+```
+
 ---
 
 # Inkscape
