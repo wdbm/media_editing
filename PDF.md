@@ -8,11 +8,13 @@ The following example extracts page 9 only:
 pdftk A=ATLAS-CONF-2011-151.pdf cat A9-9 output ATLAS-CONF-2011-151_9.pdf
 ```
 
-The following example extracts the pages inthe range 307--310:
+The following example extracts the pages in the range 307--310:
 
 ```Bash
 pdftk A=ATL-COM-PHYS-2014-1471.pdf cat A307-310 output ATL-COM-PHYS-2014-1471_307--310.pdf
 ```
+
+#  merge pages of PDFs
 
 The following examples merge multiple PDF documents:
 
@@ -71,11 +73,21 @@ An ordered list of files can be obtained in the following way:
 list_of_files="$(find -type f -name '*.png' -or -name '*.jpg' -or -name '*.JPG' | sort -V)"
 ```
 
-Using this, GraphicsMarick or ImageMagick can be used to convert images to a single PDF:
+Using this, GraphicsMagick or ImageMagick can be used to convert images to a single PDF:
 
 ```Bash
 list_of_files=$(find -type f -name '*.png' -or -name '*.jpg' -or -name '*.JPG' | sort -V)
 
 gm convert ${list_of_files} out.pdf
 #convert -quality 85 ${list_of_files} out.pdf
+```
+
+# shrink PDF
+
+## skrinkpdf.sh
+
+Use the script [shrinkpdf.sh](shrinkpdf.sh) with the input PDF, output PDF and DPI as arguments.
+
+```Bash
+./shrinkpdf.sh in.pdf out.pdf 200
 ```
