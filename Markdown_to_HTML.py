@@ -56,7 +56,7 @@ import os
 import subprocess
 
 name    = "Markdown_to_HTML"
-version = "2018-02-14T1915Z"
+version = "2021-10-17T2018Z"
 
 def main(options):
 
@@ -73,7 +73,7 @@ def main(options):
             "/"                                             +\
             os.path.splitext(os.path.basename(filepath))[0] +\
             ".html"
-        command = ["pandoc"]
+        command = ["pandoc", "--standalone"]
         if table_of_contents:
             command.append("--table-of-contents")
         if number_sections:
@@ -82,6 +82,8 @@ def main(options):
             "-c",
             CSS,
             filepath,
+            "--metadata",
+            "pagetitle=\" \"",
             "-o",
             filepath_output
         ])
