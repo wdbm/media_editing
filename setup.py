@@ -9,7 +9,7 @@ def main():
 
     setuptools.setup(
         name             = "media_editing",
-        version          = "2018.03.26.0007",
+        version          = "2021.10.17.2018",
         description      = "media editing",
         long_description = long_description(),
         url              = "https://github.com/wdbm/media_editing",
